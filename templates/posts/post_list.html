@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Posts</h1>
+    <a href="{% url 'post_create' %}" 
+       class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors font-semibold">
+        Create New Post
+    </a>
+</div>
+
+<div class="space-y-6">
+    {% for post in posts %}
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-xl font-bold mb-2">{{ post.title }}</h2>
+            <p class="text-gray-700 mb-4">{{ post.short_description }}</p>
+
+            {% if post.file_type == 'image' %}
+                <img src="{{ post.file.url }}" class="rounded-lg max-w-full">
+            {% elif post.file_type == 'video' %}
+                <video class="rounded-lg max-w-full" controls>
+                    <source src="{{ post.file.url }}" type="video/mp4">
+                </video>
+            {% elif post.file_type == 'audio' %}
+                <audio class="w-full" controls>
+                    <source src="{{ post.file.url }}" type="audio/mpeg">
+                </audio>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p class="text-gray-600">No posts available. Create one!</p>
+    {% endfor %}
+</div>
+{% endblock %}
