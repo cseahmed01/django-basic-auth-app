@@ -53,30 +53,61 @@
     </header>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed top-16 left-0 w-64 h-[calc(100%-4rem)] bg-white shadow-xl p-6 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-40 rounded-r-2xl">
-        <nav class="flex flex-col gap-4">
-            <a href="{% url 'dashboard' %}" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 font-semibold p-3 rounded-lg hover:bg-blue-50 transition shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6m-6 0H7v6h6v-6z" />
-                </svg>
-                Dashboard
-            </a>
+<!-- Sidebar -->
+<aside id="sidebar" class="fixed top-16 left-0 w-64 h-[calc(100%-4rem)] bg-white shadow-xl p-6 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-40 rounded-r-2xl">
+    <nav class="flex flex-col gap-2">
+        <!-- Dashboard -->
+        <a href="{% url 'dashboard' %}" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 font-semibold p-3 rounded-lg hover:bg-blue-50 transition shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6m-6 0H7v6h6v-6z" />
+            </svg>
+            Dashboard
+        </a>
 
-            <a href="{% url 'post_list' %}" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 font-semibold p-3 rounded-lg hover:bg-blue-50 transition shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m0 0l7-7m-7 7l7 7" />
+        <!-- Posts Dropdown -->
+        <div x-data="{ open: false }" class="relative">
+            <button @click="open = !open" class="flex items-center justify-between w-full text-gray-700 hover:text-blue-600 font-semibold p-3 rounded-lg hover:bg-blue-50 transition shadow-sm">
+                <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m0 0l7-7m-7 7l7 7" />
+                    </svg>
+                    Posts
+                </div>
+                <svg :class="{'rotate-90': open}" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
-                Posts
-            </a>
+            </button>
+            <div x-show="open" class="mt-1 ml-6 flex flex-col gap-1 transition-all" style="display: none;">
+                <a href="{% url 'post_list' %}" class="text-gray-600 hover:text-blue-500 font-medium p-2 rounded-lg hover:bg-blue-50 transition">All Posts</a>
+                <a href="{% url 'post_create' %}" class="text-gray-600 hover:text-blue-500 font-medium p-2 rounded-lg hover:bg-blue-50 transition">Create Post</a>
+                <!-- You can add more submenu items here -->
+            </div>
+        </div>
 
-            <a href="{% url 'post_create' %}" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 font-semibold p-3 rounded-lg hover:bg-blue-50 transition shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        <!-- Example Another Dropdown -->
+        <div x-data="{ open: false }" class="relative">
+            <button @click="open = !open" class="flex items-center justify-between w-full text-gray-700 hover:text-blue-600 font-semibold p-3 rounded-lg hover:bg-blue-50 transition shadow-sm">
+                <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4h14V3H5zM5 7v4h14V7H5zM5 11v4h14v-4H5z" />
+                    </svg>
+                    Settings
+                </div>
+                <svg :class="{'rotate-90': open}" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
-                Create Post
-            </a>
-        </nav>
-    </aside>
+            </button>
+            <div x-show="open" class="mt-1 ml-6 flex flex-col gap-1 transition-all" style="display: none;">
+                <a href="#" class="text-gray-600 hover:text-blue-500 font-medium p-2 rounded-lg hover:bg-blue-50 transition">Profile Settings</a>
+                <a href="#" class="text-gray-600 hover:text-blue-500 font-medium p-2 rounded-lg hover:bg-blue-50 transition">Security</a>
+            </div>
+        </div>
+    </nav>
+</aside>
+
+<!-- Alpine.js is needed for the dropdown -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
 
     <!-- Overlay for mobile -->
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-30 md:hidden"></div>
