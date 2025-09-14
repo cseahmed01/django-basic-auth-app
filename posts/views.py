@@ -1,8 +1,11 @@
 # posts/views.py
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
+ 
+from django.contrib import messages
+
 
 @login_required
 # Show all posts
@@ -20,3 +23,14 @@ def post_create(request):
     else:
         form = PostForm()
     return render(request, 'posts/post_create.html', {'form': form})
+
+
+@login_required
+# Delete post
+def post_delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        post.delete()
+        messages.success(request, "Post deleted successfully!")
+        return redirect('post_list')
+    return render(request, 'posts/post_confirm_delete.html', {'post': post})
